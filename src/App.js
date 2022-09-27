@@ -1,9 +1,12 @@
 import React from "react";
+import axios from 'axios';
 import Title from './components/Title';
 import InsertButton from "./components/InsertButton";
 import Table_clients from "./components/Table";
 import { Container } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.css';
+
+const api_endpoint = 'https://crudcrud.com/api/d4b3b1d4c27c4381ae7616ab7fa210cb/users';
 
 const data = [
   { id: 1, nombre: "Martin", apellido: "Garcia", rut: 450303670014, tipo: "empresa", telefono: '099643814', activo: "si" },
@@ -17,8 +20,10 @@ class App extends React.Component {
   constructor(props) {
     super(props)
 
-    this.insertVar = this.insertVar.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.PostPet = this.PostPet.bind(this);
+    this.selectClient = this.selectClient.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   state = {
@@ -32,24 +37,58 @@ class App extends React.Component {
       telefono: '',
       activo: ''
     },
-    modalInsert: false,
   };
 
-  insertVar = () => {
+  PostPet = async () => {
     let NewValue = { ...this.state.form };
     NewValue.id = this.state.data.length + 1;
     let NewList = this.state.data;
     NewList.push(NewValue);
     this.setState({ data: NewList })
+    await axios.post(api_endpoint, this.state.form)
+      .catch(error => {
+        console.log(error.message);
+      })
   }
 
-  handleChange = (e) => {
-    this.setState({
+  handleChange = async e => {
+    e.persist();
+    await this.setState({
       form: {
         ...this.state.form,
         [e.target.name]: e.target.value,
       },
     });
+  };
+
+  selectClient = (client) => {
+    this.setState({
+      form: {
+        id: client.id,
+        nombre: client.nombre,
+        apellido: client.apellido,
+        rut: client.rut,
+        tipo: client.tipo,
+        telefono: client.telefono,
+        activo: client.activo
+
+      }
+    })
+  }
+
+  delete = (client) => {
+    let option = window.confirm("Are you sure you want to delete client "+client.id);
+    if (option == true) {
+      let counter = 0;
+      let array = this.state.data;
+      array.map((register) => {
+        if (client.id == register.id) {
+          array.splice(counter, 1);
+        }
+        counter++;
+      });
+      this.setState({ data: array});
+    }
   };
 
   render() {
@@ -58,11 +97,11 @@ class App extends React.Component {
         <Title></Title>
         <br />
         <Container>
-          <InsertButton state={this.state} insertVar={this.insertVar} handleChange={this.handleChange}></InsertButton>
+          <InsertButton state={this.state} PostPet={this.PostPet} handleChange={this.handleChange}></InsertButton>
           <br />
-          <Table_clients data={data}></Table_clients>
+          <Table_clients data={data} selectClient={this.selectClient} state={this.state} delete={this.delete}></Table_clients>
         </Container>
-      </div>
+      </div >
     )
   }
 }

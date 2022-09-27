@@ -77,12 +77,16 @@ class InsertButton extends React.Component {
                                 <label>
                                     Tipo:
                                 </label>
-                                <input
+                                <select
                                     className="form-control"
                                     name="tipo"
                                     type="text"
                                     onChange={this.props.handleChange}
-                                />
+                                    value={this.props.state.form.tipo}
+                                >
+                                    <option value="empresa">empresa</option>
+                                    <option value="consumidor final">consumidor final</option>
+                                </select>
                             </FormGroup>
                             <FormGroup>
                                 <label>
@@ -109,7 +113,7 @@ class InsertButton extends React.Component {
                         </form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.props.insertVar}>Insert</Button>{' '}
+                        <Button color="primary" onClick={() => { this.setState({ modal: !this.state.modal }); this.props.PostPet() }}>Insert</Button>{' '}
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
