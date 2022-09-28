@@ -6,7 +6,7 @@ import Table_clients from "./components/Table";
 import { Container } from "reactstrap";
 import 'bootstrap/dist/css/bootstrap.css';
 
-const api_endpoint = 'https://crudcrud.com/api/d4b3b1d4c27c4381ae7616ab7fa210cb/users';
+const api_endpoint = 'https://crudcrud.com/api/834efeb953424ce391b7e00a301c9932' + '/users';
 
 const data = [
   { id: 1, nombre: "Martin", apellido: "Garcia", rut: 450303670014, tipo: "empresa", telefono: '099643814', activo: "si" },
