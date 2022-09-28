@@ -36,7 +36,8 @@
 
 3. Ejecutar el comando `npm start` (esto abrirá una venta en el navegador con la app funcionando).
 
-4. ![Editar esta constante con tu propio endpoint de crudcrud.com](crud.JPG)
+4. Editar esta constante con tu propio endpoint de crudcrud.com
+   ![](crud.JPG)
 
 5. Refrescar la página de la app, y listo!
 
